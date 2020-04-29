@@ -10,6 +10,8 @@ import pickle
 import emoji
 from PIL import Image, ImageTk
 
+babyName = "babyName.pckl" 
+babyGender = "babyGender.pckl"
 
 class myRose(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -18,9 +20,14 @@ class myRose(tk.Tk):
         
         self.iconbitmap("rose.ico")
         self.title("Roses are red, violets are blue, No matter what, I will always love you")
-        self.geometry("800x480")
+        #self.geometry("800x480")
         self._frame = None
-        self.switch_frame(StartPage)
+            ##### Come back and add the ability for the program to detect the pickle files. if no files, open Setup, else open StartPage
+        if not os.path.exists(babyGender):     
+            self.switch_frame(setup)
+
+        else:
+            self.switch_frame(StartPage)
         
 
     def switch_frame(self, frame_class):
@@ -31,16 +38,125 @@ class myRose(tk.Tk):
         self._frame = new_frame
         self._frame.grid()
 
+######## The Setup Page ########
+
+class setup(tk.Frame):
+   
+    def __init__(self,master):
+        headerFont = font.Font(family='Helvetica', size=20)
+        subHeaderFont = font.Font(family='Helvetica', size=12)
+        buttonFont = font.Font(family='Helvetica', size = 10, weight = 'bold')
+        """   this is the "main frame from tkinter """
+        tk.Frame.__init__(self,master)
+
+        """this is the label on the front page"""
+        header = tk.Label(self, text="Welcome to the setup page for My Rose!! :)", font = headerFont)
+        subHeader = tk.Label(self, text="If you wouldn't mind filling out some information below, \nit will allow for a more personalized experience :)", font = subHeaderFont)
+       # """ This is for determining New Users, so allow the program to be more personalized"""
+        
+        babyName = "babyName.pckl" 
+        babyGender = "babyGender.pckl"
+        var = tk.IntVar()
+         
+        def submitButtons():
+            babyName = "babyName.pckl" 
+            babyGender = "babyGender.pckl"
+            selection = var.get()
+            print(selection)
+            ##### Boy Selection
+            if selection == 1:
+                if not os.path.exists(babyGender):
+                    fGender = open('babyGender.pckl', 'wb')
+                    pickle.dump("Boy", fGender)
+                    name = simpledialog.askstring("Input", "Awwe, well congrats on your little boy! \nWhat is your son's name?")
+                    fName = open('babyName.pckl', 'wb')
+                    pickle.dump(name, fName)
+                    tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + name)
+                    self.switch_frame(StartPage)
+                else:
+                    b = open(babyName, 'rb')
+                    baby = pickle.load(b)
+                    #### Come Back And Add An Option to prompt if the user wants to continue anyway, deleting the old record
+                    tk.messagebox.showwarning(title="Watch out now!!", message="It looks like you have already set up little baby " + baby)
+                    MsgBox = tk.messagebox.askquestion ('Continue?','You can continue with the setup, it will delete ' + baby ,icon = 'warning')
+                    if MsgBox == 'yes':
+                        fGender = open('babyGender.pckl', 'wb')
+                        pickle.dump("Boy", fGender)
+                        name = simpledialog.askstring("Input", "Awwe, well congrats on your little boy! \nWhat is your son's name?")
+                        fName = open('babyName.pckl', 'wb')
+                        pickle.dump(name, fName)
+                        tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + name)
+                        self.switch_frame(StartPage)
+
+                
+
+            ##### Girl Selection
+            elif selection == 2:
+                if not os.path.exists(babyGender):
+                    fGender = open('babyGender.pckl', 'wb')
+                    pickle.dump("Girl", fGender)
+                    name = simpledialog.askstring("Input", "Awwe, well congrats on your little girl! \nWhat is your daughter's name?")
+                    fName = open('babyName.pckl', 'wb')
+                    pickle.dump(name, fName)
+                    tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + name)
+                    master.switch_frame(StartPage)
+                else:
+                    b = open(babyName, 'rb')
+                    baby = pickle.load(b)
+                    #### Come Back And Add An Option to prompt if the user wants to continue anyway, deleting the old record
+                    tk.messagebox.showwarning(title="Watch out now!!", message="It looks like you have already set up little baby " + baby)
+                    MsgBox = tk.messagebox.askquestion ('Continue?','You can continue with the setup, it will delete ' + baby ,icon = 'warning')
+                    if MsgBox == 'yes':
+                        fGender = open('babyGender.pckl', 'wb')
+                        pickle.dump("Girl", fGender)
+                        name = simpledialog.askstring("Input", "Awwe, well congrats on your little girl! \nWhat is your daughter's name?")
+                        fName = open('babyName.pckl', 'wb')
+                        pickle.dump(name, fName)
+                        tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + name)
+                        master.switch_frame(StartPage)
+            elif selection == 0:
+                tk.messagebox.showwarning(title="Uh Oh! :/", message="Please make sure you selection something and try again :)")
+            
+            else:
+                tk.messagebox.showwarning(title="Uh Oh! :/", message="Something went wrong :((")
+
+
+
+        boyBtn = tk.Radiobutton(self, text = "A Baby Boy", variable = var, value = 1, indicatoron = 0, bg = "RoyalBlue", font = buttonFont)
+        girlBtn = tk.Radiobutton(self, text = "A Baby Girl", variable = var, value = 2, indicatoron = 0, bg = "Pink", font = buttonFont )
+        submitBtn = tk.Button(self, text = "Test Value", command = submitButtons)
+        """ Set up the personalization by adding baby's name"""
+
+
+    
+        
+        
+        """this is where I put the widgets in order"""
+        header.grid(row = 1, column= 0, columnspan = 5, sticky = 'n')
+        subHeader.grid(row = 2, column = 0, columnspan = 5)
+        boyBtn.grid(row = 3, column = 2)
+        girlBtn.grid(row = 3, column = 3)
+        submitBtn.grid(row = 5, column = 4)
+
+
+######## The Main Home Page ########
+
 class StartPage(tk.Frame):
    
     def __init__(self,master):
         headerFont = font.Font(family='Helvetica', size=20)
         """   this is the "main frame from tkinter """
         tk.Frame.__init__(self,master)
+        """frmMain = tk.Frame(self,bg="blue")
+        frmMain.grid(row = 0, column = 0, sticky = 'nesw')
+        frmMain.grid_rowconfigure(0, weight=1)
+        frmMain.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)"""
         """this is the label on the front page"""
-        tk.Label(self, text="What Do You Want To Do Today? :)", font = headerFont).grid(row = 1, rowspan = 2, column= 4, columnspan= 2)
+        header = tk.Label(self, text="What Do You Want To Do Today? :)", font = headerFont)
 
-        """ This is for determining New Users, so allow the program to be more personalized"""
+       # """ This is for determining New Users, so allow the program to be more personalized"""
 
         babyName = "babyName.pckl" 
         
@@ -57,6 +173,8 @@ class StartPage(tk.Frame):
             baby = pickle.load(b)
             tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + baby)
             
+
+        
         storyBtn = tk.Button(self, text="Story Time!",
                     command=lambda: master.switch_frame(StoryPage))
         gameBtn = tk.Button(self, text="Games! :)",
@@ -67,12 +185,15 @@ class StartPage(tk.Frame):
         
         
         
-        """this is where I put the buttons in order"""
-        storyBtn.grid(row = 4, column = 2)
-        gameBtn.grid(row = 4, column = 3)
-        settingsBtn.grid(row = 4, column = 4)
+        """this is where I put the widgets in order"""
+        header.grid(row = 1, column= 0, columnspan = 5, sticky = 'n')
+        #header.grid_columnconfigure(5, weight = 2)
+        #header.grid_rowconfigure(2, pad = 20, weight = 2)
+        storyBtn.grid(row = 2, column = 0, pady = 20)
+        gameBtn.grid(row = 2, column = 2, padx = 20)
+        settingsBtn.grid(row = 2, column = 3, padx = 10)
 
-###### Home page with the story interactions 
+######## Home page with the story interactions ########
 
 class StoryPage(tk.Frame):
    
@@ -111,7 +232,7 @@ class StoryPage(tk.Frame):
         girlBtn.grid(row = 4, column = 2)
         settingsBtn.grid(row = 4, column = 4)
 
-### One of the story interaction options 
+######## One of the story interaction options ########
 
 class astronautPage(tk.Frame):
 
@@ -130,7 +251,7 @@ class astronautPage(tk.Frame):
         tk.Button(self, text="Go Home",
                     command=lambda: master.switch_frame(StoryPage)).pack()
 
-### One of the story interaction options
+######## One of the story interaction options ########
 class princessPage(tk.Frame):
 
     def __init__(self, master):

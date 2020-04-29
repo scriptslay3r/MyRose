@@ -41,3 +41,22 @@ The first idea that came into my mind was the "Shape Matcher". You know, where y
 
 To be completely honest, I am not a teacher, nor do I have any experience with educating the youth. However, through patience, research, and the help from external sources, I am confident I can accomplish this. 
 During development, I will start with the most relevant features for my daughter. She is currently six months old, and as she grows, I hope the program can grow with her, as I add updates and improvements.
+
+
+# A few features I am currently working on
+
+## Personalization
+
+	• Ability to pick gender. 
+	• Ability to select avatar. 
+	• Ability to change icon from Rose to others. 
+		○ Examples:
+			§ Astronauts 
+			§ Dinosaurs
+			§ Kitten 
+			§ Butterfly 
+			§ Puppy
+
+## Features
+
+	• Interactive stories, such as text and reply based adventures 

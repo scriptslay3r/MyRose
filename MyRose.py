@@ -9,18 +9,33 @@ import os
 import pickle
 import emoji
 from PIL import Image, ImageTk
+from playsound import playsound
+from time import sleep
+import fidgitSpinner
+import relaxingAutoPaint
+import youtubeAudioDownloader
+
 
 babyName = "babyName.pckl" 
 babyGender = "babyGender.pckl"
-
+try:
+    b = open('babyName.pckl', 'rb')
+    baby = pickle.load(b)
+except:
+    pass
 class myRose(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
-        
-        self.iconbitmap("rose.ico")
+        #here = os.path.dirname(os.path.abspath(__file__))
+
+        #icon = os.path.join(here, 'rose.ico')
         self.title("Roses are red, violets are blue, No matter what, I will always love you")
-        #self.geometry("800x480")
+        here = os.path.dirname(os.path.abspath(__file__))
+        filename = os.path.join(here, 'rose.gif')
+        img = tk.PhotoImage(file= filename)
+        self.tk.call('wm', 'iconphoto', self._w, img)
+        #self.geometry("550x100")
         self._frame = None
             ##### Come back and add the ability for the program to detect the pickle files. if no files, open Setup, else open StartPage
         if not os.path.exists(babyGender):     
@@ -57,7 +72,7 @@ class setup(tk.Frame):
         babyName = "babyName.pckl" 
         babyGender = "babyGender.pckl"
         var = tk.IntVar()
-         
+        
         def submitButtons():
             babyName = "babyName.pckl" 
             babyGender = "babyGender.pckl"
@@ -124,7 +139,7 @@ class setup(tk.Frame):
 
         boyBtn = tk.Radiobutton(self, text = "A Baby Boy", variable = var, value = 1, indicatoron = 0, bg = "RoyalBlue", font = buttonFont)
         girlBtn = tk.Radiobutton(self, text = "A Baby Girl", variable = var, value = 2, indicatoron = 0, bg = "Pink", font = buttonFont )
-        submitBtn = tk.Button(self, text = "Test Value", command = submitButtons)
+        submitBtn = tk.Button(self, text = "Submit", command = submitButtons)
         """ Set up the personalization by adding baby's name"""
 
 
@@ -140,7 +155,16 @@ class setup(tk.Frame):
 
 
 ######## The Main Home Page ########
-
+def welcome():
+        
+        messageFont = font.Font(family='Helvetica', size=15)
+        b = open('babyName.pckl', 'rb')
+        baby = pickle.load(b)
+        top = tk.Toplevel()
+        top.title('Welcome')
+        tk.Message(top, text="Mommy and Daddy love you " + baby, font = messageFont, padx=20, pady=20).pack()
+        top.after(2000, top.destroy)
+        
 class StartPage(tk.Frame):
    
     def __init__(self,master):
@@ -160,18 +184,23 @@ class StartPage(tk.Frame):
 
         babyName = "babyName.pckl" 
         
+        
         """ If you are a new user, enter the baby's name"""
         if not os.path.exists(babyName):
          
             name = simpledialog.askstring("Input", "What is your baby's name?")
             f = open('babyName.pckl', 'wb')
             pickle.dump(name, f)
+            
+
             tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + name)
+                
          #If you are not a new user, welcome back
         else:
             b = open(babyName, 'rb')
             baby = pickle.load(b)
-            tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + baby)
+            welcome()
+            #tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + baby)
             
 
         
@@ -186,12 +215,129 @@ class StartPage(tk.Frame):
         
         
         """this is where I put the widgets in order"""
-        header.grid(row = 1, column= 0, columnspan = 5, sticky = 'n')
+        header.grid(row = 1, column= 1, columnspan = 5, sticky = 'n', padx = 30)
         #header.grid_columnconfigure(5, weight = 2)
         #header.grid_rowconfigure(2, pad = 20, weight = 2)
-        storyBtn.grid(row = 2, column = 0, pady = 20)
-        gameBtn.grid(row = 2, column = 2, padx = 20)
-        settingsBtn.grid(row = 2, column = 3, padx = 10)
+        storyBtn.grid(row = 2, column = 2, pady = 20)
+        gameBtn.grid(row = 2, column = 3, padx = 20)
+        settingsBtn.grid(row = 2, column = 4, padx = 10)
+
+
+######## Home page for Settings ########
+ 
+class SettingPage(tk.Frame):
+   
+    def __init__(self,master):
+        headerFont = font.Font(family='Helvetica', size=20)
+
+        tk.Frame.__init__(self,master)
+        tk.Label(self, text=emoji.emojize('Settings for mom and dad! \U00002699	'), font=headerFont).pack()
+        musicBtn = tk.Button(self, text="Download Music For " + baby, command=lambda: youtubeAudioDownloader.download())
+        homeBtn = tk.Button(self, text = "Go Home", command =lambda: master.switch_frame(StartPage))
+        musicBtn.pack()
+        homeBtn.pack()
+
+
+
+######## Home page for Game selction ########
+
+class GamePage(tk.Frame):
+   
+    def __init__(self,master):
+        headerFont = font.Font(family='Helvetica', size=20)
+
+        tk.Frame.__init__(self,master)
+        tk.Label(self, text=emoji.emojize('Let\'s play some games!! \U0001F3AE 	'), font=headerFont).pack()
+        colorBtn = tk.Button(self, text="Learn Basic Colors", command=lambda: master.switch_frame(colorPage))
+        fidgitBtn = tk.Button(self, text = "Fidgit Spinner!!", command =lambda: fidgitSpinner.fidgit())
+        paintBtn = tk.Button(self, text = "Relax, with some auto painting beauty :)", command = lambda: relaxingAutoPaint.paint() )
+        homeBtn = tk.Button(self, text = "Go Home", command = lambda: master.switch_frame(StartPage))
+        
+        paintBtn.pack()
+        colorBtn.pack()
+        fidgitBtn.pack()
+        homeBtn.pack()
+
+######## Color Learning Game ########
+def redSpeak():
+    here = os.path.dirname(os.path.abspath(__file__))
+    filename = os.path.join(here, 'red.mp3')
+    playsound(filename)
+
+def greenSpeak():
+    here = os.path.dirname(os.path.abspath(__file__))
+    filename = os.path.join(here, 'green.mp3')
+    playsound(filename)
+def blueSpeak():
+    here = os.path.dirname(os.path.abspath(__file__))
+    filename = os.path.join(here, 'blue.mp3')
+    playsound(filename)
+   
+
+
+
+def colorMatch(event):
+        print ("clicked at", event.x, event.y)
+        
+        if 30 < event.x < 120:
+            print("Red")
+            top = tk.Toplevel()
+            redFont = font.Font(family='Helvetica', size = 100, weight = 'bold')
+            top.title("Red")
+            tk.Label(top, text = "Red", fg = "Red", font = redFont).pack()
+            #diagrams = tk.PhotoImage(file='Red.gif')
+            #logolbl= tk.Label(top, image = diagrams).pack()
+            btn = tk.Button(top, text="Back").pack()
+            hearBtn = tk.Button(top, text = "Hear This Color", command = redSpeak, bg="Red").pack()
+            redSpeak()
+
+        if 150 < event.x <240 :
+            print("Green")
+            top = tk.Toplevel()
+            greenFont = font.Font(family='Helvetica', size = 100, weight = 'bold')
+            top.title("Green")
+            tk.Label(top, text = "Green", fg = "Green", font = greenFont).pack()
+            btn = tk.Button(top, text="Back").pack()
+            hearBtn = tk.Button(top, text = "Hear This Color", command = greenSpeak, bg="Green").pack()
+            greenSpeak()
+
+        if 270 < event.x < 370:
+            print("Blue")
+            top = tk.Toplevel()
+            blueFont = font.Font(family='Helvetica', size = 100, weight = 'bold')
+            top.title("Blue")
+            tk.Label(top, text = "Blue", fg = "Blue", font = blueFont).pack()
+            btn = tk.Button(top, text="Back").pack()
+            hearBtn = tk.Button(top, text = "Hear This Color", command = blueSpeak, bg="RoyalBlue").pack()
+            if 'normal' == top.state():
+                blueSpeak()
+class colorPage(tk.Frame):
+
+    def __init__(self,master):
+        headerFont = font.Font(family='Helvetica', size = 20)
+        colorBtnFont = font.Font(family = 'Helvetica', size = 40, weight = 'bold')
+        tk.Frame.__init__(self,master)
+        headerLbl = tk.Label(self, text="Tap the color to learn the name of it :)", font = headerFont)
+        tk.Frame(self, width=385, height=460, relief='raised', borderwidth=5)
+          
+
+
+      
+        backBtn = tk.Button(self, text = "Go Back", command = lambda: master.switch_frame(GamePage))
+        greenBtn = tk.Button(self, text = "Green", fg = "#04B404", font =  colorBtnFont, bg = "#04B404", activebackground = '#088A08', relief="raised", bd = 25, width = 5, height = 2, command = lambda: greenSpeak())
+        blueBtn = tk.Button(self, text = "Blue", fg = "Blue", font = colorBtnFont, bg = "blue", activebackground = '#0404B4', relief="raised", bd = 25, width = 5, height = 2, command = lambda: blueSpeak())
+        redBtn = tk.Button(self, text = "Red", fg = "Red", font = colorBtnFont, bg = "red", activebackground = '#DF0101', relief="raised", bd = 25, width = 5, height = 2, command = lambda: redSpeak())
+
+        headerLbl.grid(row = 0, column = 2, columnspan = 1)
+        greenBtn.grid(row = 1, column = 1)
+        blueBtn.grid(row = 1, column = 2)
+        redBtn.grid(row = 1, column = 3)
+        backBtn.grid(row = 2, column = 2, pady = 10)
+        #greenBtn.pack(side = "left", padx = 5)
+        #blueBtn.pack(side = "left", padx = 5)
+        #redBtn.pack(side = "left", padx = 5)
+        #backBtn.pack(side = "bottom", ipady = 10)
+
 
 ######## Home page with the story interactions ########
 
@@ -206,6 +352,7 @@ class StoryPage(tk.Frame):
         storyBox = tk.Text(self, height = 4, width = 55)
         storyText = "Ahhhh, well hello there!! \nHow are you doing today? \nWell, what do you want to be today?"
         storyBox.insert(tk.END, storyText)
+        
         s = tk.Scrollbar(self, orient = 'vertical')
         
         
@@ -221,6 +368,7 @@ class StoryPage(tk.Frame):
                     command=lambda: master.switch_frame(princessPage))
         settingsBtn = tk.Button(self, text = "Mommy and Daddy Settings",
                     command=lambda: master.switch_frame(SettingPage))
+        homeBtn = tk.Button(self, text = "Go Home", command = lambda: master.switch_frame(StartPage))
         
         
         
@@ -231,6 +379,7 @@ class StoryPage(tk.Frame):
         boyBtn.grid(row = 4, column = 1)
         girlBtn.grid(row = 4, column = 2)
         settingsBtn.grid(row = 4, column = 4)
+        homeBtn.grid(row = 4, column = 5)
 
 ######## One of the story interaction options ########
 
@@ -242,7 +391,10 @@ class astronautPage(tk.Frame):
         #searchBtn = tk.Button(self, text="Search")
         
         headerLbl.pack(pady='5')
-        image = Image.open("astronaut.png")
+        here = os.path.dirname(os.path.abspath(__file__))
+        filename = os.path.join(here, 'astronaut.png')
+        
+        image = Image.open(filename)
         photo = ImageTk.PhotoImage(image)
         photoLabel = tk.Label(self, image=photo)
         photoLabel.image = photo
@@ -260,7 +412,10 @@ class princessPage(tk.Frame):
         #searchBtn = tk.Button(self, text="Search")
         
         headerLbl.pack(pady='5')
-        image = Image.open("princess.png")
+        here = os.path.dirname(os.path.abspath(__file__))
+        filename = os.path.join(here, 'princess.png')
+        
+        image = Image.open(filename)
         photo = ImageTk.PhotoImage(image)
         photoLabel = tk.Label(self, image=photo)
         photoLabel.image = photo

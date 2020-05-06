@@ -1,11 +1,13 @@
 import pygame
 from pygame.locals import *
 import random,time
-from playsound import playsound
+import os
 
 def paint():
     pygame.mixer.init()
-    pygame.mixer.music.load("MacMillerCircles.mp3")
+    here = os.path.dirname(os.path.abspath(__file__))
+    filename = os.path.join(here, 'MacMillerCircles.mp3')
+    pygame.mixer.music.load(filename)
     pygame.mixer.music.play()
     
     RES=[600,600]

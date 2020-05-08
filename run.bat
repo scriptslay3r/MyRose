@@ -1,0 +1,1 @@
+Pyinstalled\dist\MyRose.exe

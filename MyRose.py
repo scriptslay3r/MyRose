@@ -19,8 +19,8 @@ import youtubeAudioDownloader
 babyName = "babyName.pckl" 
 babyGender = "babyGender.pckl"
 try:
-    b = open('babyName.pckl', 'rb')
-    baby = pickle.load(b)
+    with open('babyName.pckl', 'rb') as b:
+        baby = pickle.load(b)
 except:
     pass
 class myRose(tk.Tk):
@@ -81,52 +81,58 @@ class setup(tk.Frame):
             ##### Boy Selection
             if selection == 1:
                 if not os.path.exists(babyGender):
-                    fGender = open('babyGender.pckl', 'wb')
-                    pickle.dump("Boy", fGender)
+                    with open ('babyGender.pckl', 'wb') as fGender:
+                        pickle.dump("Boy", fGender)
                     name = simpledialog.askstring("Input", "Awwe, well congrats on your little boy! \nWhat is your son's name?")
-                    fName = open('babyName.pckl', 'wb')
-                    pickle.dump(name, fName)
+                    with open('babyName.pckl', 'wb') as fName:
+                        pickle.dump(name, fName)
+                                
                     tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + name)
-                    self.switch_frame(StartPage)
+                    master.switch_frame(StartPage)
+                    #fGender.close()
+                    #fName.close()
                 else:
-                    b = open(babyName, 'rb')
-                    baby = pickle.load(b)
+                    with open('babyName.pckl', 'rb') as b:
+                        baby = pickle.load(b)
                     #### Come Back And Add An Option to prompt if the user wants to continue anyway, deleting the old record
                     tk.messagebox.showwarning(title="Watch out now!!", message="It looks like you have already set up little baby " + baby)
                     MsgBox = tk.messagebox.askquestion ('Continue?','You can continue with the setup, it will delete ' + baby ,icon = 'warning')
+                   
                     if MsgBox == 'yes':
-                        fGender = open('babyGender.pckl', 'wb')
-                        pickle.dump("Boy", fGender)
+                        with open('babyGender.pckl', 'wb') as fGender:
+                            pickle.dump("Boy", fGender)
                         name = simpledialog.askstring("Input", "Awwe, well congrats on your little boy! \nWhat is your son's name?")
-                        fName = open('babyName.pckl', 'wb')
-                        pickle.dump(name, fName)
+                        with open('babyName.pckl', 'wb') as fName:
+                            pickle.dump(name, fName)
                         tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + name)
-                        self.switch_frame(StartPage)
+                        #Gender.close()
+                        #fName.close()
+                        master.switch_frame(StartPage)
 
                 
 
             ##### Girl Selection
             elif selection == 2:
                 if not os.path.exists(babyGender):
-                    fGender = open('babyGender.pckl', 'wb')
-                    pickle.dump("Girl", fGender)
+                    with open('babyGender.pckl', 'wb') as fGender:
+                        pickle.dump("Girl", fGender)
                     name = simpledialog.askstring("Input", "Awwe, well congrats on your little girl! \nWhat is your daughter's name?")
-                    fName = open('babyName.pckl', 'wb')
-                    pickle.dump(name, fName)
+                    with open('babyName.pckl', 'wb') as fName:
+                        pickle.dump(name, fName)
                     tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + name)
                     master.switch_frame(StartPage)
                 else:
-                    b = open(babyName, 'rb')
-                    baby = pickle.load(b)
+                    with open('babyName.pckl', 'rb') as b:
+                        baby = pickle.load(b)
                     #### Come Back And Add An Option to prompt if the user wants to continue anyway, deleting the old record
                     tk.messagebox.showwarning(title="Watch out now!!", message="It looks like you have already set up little baby " + baby)
                     MsgBox = tk.messagebox.askquestion ('Continue?','You can continue with the setup, it will delete ' + baby ,icon = 'warning')
                     if MsgBox == 'yes':
-                        fGender = open('babyGender.pckl', 'wb')
-                        pickle.dump("Girl", fGender)
+                        with open('babyGender.pckl', 'wb') as fGender:
+                            pickle.dump("Girl", fGender)
                         name = simpledialog.askstring("Input", "Awwe, well congrats on your little girl! \nWhat is your daughter's name?")
-                        fName = open('babyName.pckl', 'wb')
-                        pickle.dump(name, fName)
+                        with open('babyName.pckl', 'wb') as fName:
+                            pickle.dump(name, fName)
                         tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + name)
                         master.switch_frame(StartPage)
             elif selection == 0:
@@ -158,8 +164,8 @@ class setup(tk.Frame):
 def welcome():
         
         messageFont = font.Font(family='Helvetica', size=15)
-        b = open('babyName.pckl', 'rb')
-        baby = pickle.load(b)
+        with open('babyName.pckl', 'rb') as b:
+            baby = pickle.load(b)
         top = tk.Toplevel()
         top.title('Welcome')
         tk.Message(top, text="Mommy and Daddy love you " + baby, font = messageFont, padx=20, pady=20).pack()

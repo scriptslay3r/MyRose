@@ -32,7 +32,7 @@ class myRose(tk.Tk):
         #icon = os.path.join(here, 'rose.ico')
         self.title("Roses are red, violets are blue, No matter what, I will always love you")
         here = os.path.dirname(os.path.abspath(__file__))
-        filename = os.path.join(here, 'rose.gif')
+        filename = os.path.join(here, 'Resources', 'rose.gif')
         img = tk.PhotoImage(file= filename)
         self.tk.call('wm', 'iconphoto', self._w, img)
         #self.geometry("550x100")
@@ -203,8 +203,8 @@ class StartPage(tk.Frame):
                 
          #If you are not a new user, welcome back
         else:
-            b = open(babyName, 'rb')
-            baby = pickle.load(b)
+            with open('babyName.pckl', 'rb') as b:
+                baby = pickle.load(b)
             welcome()
             #tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + baby)
             

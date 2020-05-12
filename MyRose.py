@@ -11,9 +11,9 @@ import emoji
 from PIL import Image, ImageTk
 from playsound import playsound
 from time import sleep
-import fidgitSpinner
-import relaxingAutoPaint
-import youtubeAudioDownloader
+from lib import fidgitSpinner
+from lib import relaxingAutoPaint
+from lib import youtubeAudioDownloader
 
 
 babyName = "babyName.pckl" 
@@ -32,7 +32,7 @@ class myRose(tk.Tk):
         #icon = os.path.join(here, 'rose.ico')
         self.title("Roses are red, violets are blue, No matter what, I will always love you")
         here = os.path.dirname(os.path.abspath(__file__))
-        filename = os.path.join(here, 'Resources', 'rose.gif')
+        filename = os.path.join(here, 'Resources', 'Images', 'rose.gif')
         img = tk.PhotoImage(file= filename)
         self.tk.call('wm', 'iconphoto', self._w, img)
         #self.geometry("550x100")
@@ -235,7 +235,8 @@ class SettingPage(tk.Frame):
    
     def __init__(self,master):
         headerFont = font.Font(family='Helvetica', size=20)
-
+        b = open(babyName, 'rb')
+        baby = pickle.load(b)
         tk.Frame.__init__(self,master)
         tk.Label(self, text=emoji.emojize('Settings for mom and dad! \U00002699	'), font=headerFont).pack()
         musicBtn = tk.Button(self, text="Download Music For " + baby, command=lambda: youtubeAudioDownloader.download())
@@ -267,16 +268,16 @@ class GamePage(tk.Frame):
 ######## Color Learning Game ########
 def redSpeak():
     here = os.path.dirname(os.path.abspath(__file__))
-    filename = os.path.join(here, 'red.mp3')
+    filename = os.path.join(here, 'Resources', 'Sounds', 'red.mp3')
     playsound(filename)
 
 def greenSpeak():
     here = os.path.dirname(os.path.abspath(__file__))
-    filename = os.path.join(here, 'green.mp3')
+    filename = os.path.join(here, 'Resources', 'Sounds', 'green.mp3')
     playsound(filename)
 def blueSpeak():
     here = os.path.dirname(os.path.abspath(__file__))
-    filename = os.path.join(here, 'blue.mp3')
+    filename = os.path.join(here, 'Resources', 'Sounds', 'blue.mp3')
     playsound(filename)
    
 
@@ -398,7 +399,7 @@ class astronautPage(tk.Frame):
         
         headerLbl.pack(pady='5')
         here = os.path.dirname(os.path.abspath(__file__))
-        filename = os.path.join(here, 'astronaut.png')
+        filename = os.path.join(here, 'Resources', 'Images', 'astronaut.png')
         
         image = Image.open(filename)
         photo = ImageTk.PhotoImage(image)
@@ -419,14 +420,14 @@ class princessPage(tk.Frame):
         
         headerLbl.pack(pady='5')
         here = os.path.dirname(os.path.abspath(__file__))
-        filename = os.path.join(here, 'princess.png')
+        filename = os.path.join(here, 'Resources', 'Images', 'princess.png')
         
         image = Image.open(filename)
         photo = ImageTk.PhotoImage(image)
         photoLabel = tk.Label(self, image=photo)
         photoLabel.image = photo
         photoLabel.pack(side='right')
-        #searchBtn.pack(pady='5')
+        #searchBtn.pack(pady='5'), '
         tk.Button(self, text="Go Home",
                     command=lambda: master.switch_frame(StoryPage)).pack()
 

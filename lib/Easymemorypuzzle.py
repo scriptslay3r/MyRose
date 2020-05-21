@@ -6,6 +6,9 @@
 import random, pygame, sys
 from pygame.locals import *
 
+white = (255, 255, 255) 
+green = (0, 255, 0) 
+blue = (0, 0, 128) 
 FPS = 30 # frames per second, the general speed of the program
 WINDOWWIDTH = 640 # size of window's width in pixels
 WINDOWHEIGHT = 480 # size of windows' height in pixels
@@ -61,14 +64,36 @@ def main():
     firstSelection = None # stores the (x, y) of the first box clicked.
 
     DISPLAYSURF.fill(BGCOLOR)
+    #pygame.draw.rect(DISPLAYSURF,(0,0,50), (10,10,100,50))
+
     startGameAnimation(mainBoard)
-    
+  
 
     while True: # main game loop
         mouseClicked = False
 
         DISPLAYSURF.fill(BGCOLOR) # drawing the window
         drawBoard(mainBoard, revealedBoxes)
+        x1 = 220
+        width = 190
+        y1 = 350
+        height = 50
+        pygame.draw.rect(DISPLAYSURF,(0,0,50), (x1,y1,width,height))
+        #smallText = pygame.font.Font("freesansbold.tff",20)
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+        print(mouse)
+        font = pygame.font.Font('freesansbold.ttf', 20) 
+        text = font.render('Reveal Again', True, green, blue) 
+        textRect = text.get_rect()  
+        textRect.center = ( (x1 +(width/2)), (y1 +(height /2)))
+        DISPLAYSURF.blit(text, textRect)
+        if x1 + width > mouse[0] > x1 and y1 + height > mouse[1] > y1:
+            
+            pygame.draw.rect(DISPLAYSURF,(0,0,100),(x1,y1,width,height))
+            DISPLAYSURF.blit(text, textRect)
+            if click[0] == 1:
+                startGameAnimation(mainBoard)
 
         for event in pygame.event.get(): # event handling loop
             if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):

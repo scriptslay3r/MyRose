@@ -1,3 +1,27 @@
+######## LOG ########
+#####################
+"""
+Add Index to organize amount of #'s
+Use CTR + F and copy and paste the #'s.
+######## = LOG 
+#######  = My Todo 
+
+ ~ Tips ~
+
+ Using this will change the size of the entire window.
+ master.geometry("1250x10000")
+
+
+
+June 2, 2020:
+Add global counter the limit the amount of times the "Welcome" pop up box shows
+Seperate COLORS into sections
+I should had another step. Where it offers a Demo Option and a Setup Option.
+
+"""
+######## END LOG ########
+
+
 
 import tkinter as tk
 from tkinter import simpledialog
@@ -39,6 +63,8 @@ global fontWeight
 fontWeight = 'bold'
 ######## END Button Styling #########
 global COLORS
+
+
 #~~~~~~ I want to add a section to allow the user to disable certian colors ~~~~~ ###
 def randomColor():
     COLORS = ['snow', 'ghost white', 'white smoke', 'gainsboro', 'floral white', 'old lace',
@@ -166,13 +192,27 @@ class myRose(tk.Tk):
         
         #icon = os.path.join(here, 'rose.ico')
         self.title("Roses are red, violets are blue, No matter what, I will always love you")
+        pix = self.winfo_height
+        print(pix)     
         here = os.path.dirname(os.path.abspath(__file__))
         filename = os.path.join(here, 'Resources', 'Images', 'rose.gif')
         img = tk.PhotoImage(file= filename)
+
         self.tk.call('wm', 'iconphoto', self._w, img)
-        #self.geometry("550x100")
+       # self.geometry("1200x1200")
         self._frame = None
-            ##### Come back and add the ability for the program to detect the pickle files. if no files, open Setup, else open StartPage
+        self.attributes('-fullscreen', True)
+        self.fullScreenState = False
+        self.bind("<F11>", self.toggleFullScreen)
+        self.bind("<Escape>", self.quitFullScreen)
+
+        #~#~ Note To Self: Should I make ↓ a function?
+
+        """This checks to see if the file babyGender.pckl exists. If the file does not exist,
+        the file will be created. If it does exist, this means the program has ran before,
+        becuase the program creates the file.
+        I should had another step. Where it offers a Demo Option and a Setup Option."""
+
         if not os.path.exists(babyGender):     
             self.switch_frame(setup)
 
@@ -187,6 +227,15 @@ class myRose(tk.Tk):
             self._frame.destroy()
         self._frame = new_frame
         self._frame.grid()
+    def toggleFullScreen(self, event):
+        self.fullScreenState = not self.fullScreenState
+        self.attributes("-fullscreen", self.fullScreenState)
+
+    def quitFullScreen(self, event):
+        self.fullScreenState = False
+        self.attributes("-fullscreen", self.fullScreenState)
+
+        
 
 ######## The Setup Page ########
 
@@ -310,15 +359,8 @@ class setup(tk.Frame):
 
 
 
-def welcome():
-        
-        messageFont = font.Font(family='Helvetica', size=15)
-        with open('babyName.pckl', 'rb') as b:
-            baby = pickle.load(b)
-        top = tk.Toplevel()
-        top.title('Welcome')
-        tk.Message(top, text="Mommy and Daddy love you " + baby, font = messageFont, padx=20, pady=20).pack()
-        top.after(2000, top.destroy)
+
+            
 ######## The Main Home Page ########        
 class StartPage(tk.Frame):
    
@@ -328,35 +370,55 @@ class StartPage(tk.Frame):
         """   this is the "main frame from tkinter """
 
         tk.Frame.__init__(self,master)
+        #self.master.geometry("700x700")
 
-        """this is the label on the front page"""
+        """this is the Header on the front page"""
+        self.config(bg='purple')
         
-        header = tk.Label(self, text="What Do You Want To Do Today? :)", font = headerFont)
+        
+       
+        here = os.path.dirname(os.path.abspath(__file__))
+        filename = os.path.join(here, 'Resources', 'Images', 'WHAT.png')
+        
+        image = Image.open(filename)
+        photo = ImageTk.PhotoImage(image)
+        photoLabel = tk.Label(self, image=photo)
+        photoLabel.image = photo
+        header = photoLabel
 
-       # """ This is for determining New Users, so allow the program to be more personalized"""
+
+     
 
         babyName = "babyName.pckl" 
-        
-        
-        """ If you are a new user, enter the baby's name"""
-        if not os.path.exists(babyName):
-         
-            name = simpledialog.askstring("Input", "What is your baby's name?")
-            f = open('babyName.pckl', 'wb')
-            pickle.dump(name, f)
-            
-
-            tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + name)
-                
-         #If you are not a new user, welcome back
-        else:
+        def welcome():
+             
+            messageFont = font.Font(family='Helvetica', size=15)
             with open('babyName.pckl', 'rb') as b:
                 baby = pickle.load(b)
+            
+            
+            top = tk.Toplevel()
+            top.title('Welcome')
+            tk.Message(top, text="Mommy and Daddy love you " + baby, font = messageFont, padx=20, pady=20).pack()
+            top.after(2000, top.destroy)
+        
+        welcome()
+
+        """ k = 1 
+        if k == 1 and welcomeCounter == 1:
             welcome()
-            #tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + baby)
+            k =+ 2
+"""
+        """while welcomeCounter == 1:
+            welcome()
+            welcomeCounter += 2
+"""
+        #tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + baby)
             
         btnFont = font.Font(family = fontFamily, size = fontSize, weight = fontWeight)
         randomColor()
+        quitBtn = tk.Button(self, text = "Quit", fg = color, bg = secondColor,
+                    command = lambda: self.quit())
         storyBtn = tk.Button(self, text="Story Time!", fg = color, bg = secondColor,
                     command=lambda: master.switch_frame(StoryPage))
         storyBtn.config(relief = btnRelief, bd = btnBorder, font = btnFont)
@@ -369,6 +431,7 @@ class StartPage(tk.Frame):
         settingsBtn = tk.Button(self, text = "Mommy and Daddy Settings", fg = color, bg = randomBlue,
                     command=lambda: master.switch_frame(SettingPage))
         settingsBtn.config(bg = btnBG, relief = btnRelief, bd = btnBorder, font = btnFont)
+        quitBtn.config(bg = btnBG, relief = btnRelief, bd = btnBorder, font = btnFont)
         
         ###### ADDING PICTURES TO BUTTONS ######## )
         """
@@ -384,17 +447,23 @@ class StartPage(tk.Frame):
         
         
         """this is where I put the widgets in order"""
-        header.grid(row = 1, column= 1, columnspan = 5, sticky = 'n', padx = 30)
+        """header.grid(row = 1, column= 1, columnspan = 5, sticky = 'n', padx = 30)
 
         storyBtn.grid(row = 2, column = 2, pady = 20)
         gameBtn.grid(row = 2, column = 3, padx = 20)
         settingsBtn.grid(row = 2, column = 4, padx = 10)
-
+"""
+        header.pack()
+        storyBtn.pack()
+        gameBtn.pack()
+        settingsBtn.pack()
+        quitBtn.pack(side = "bottom")
         #circleBtn.grid(row= 3, column = 5, padx = 10)
         #hotoLabel.grid(row = 4, column = 6)
 
         ######## Global Menu Bar ########
         def makeMenu():
+
 
             def hello():
                 print("Hello")      
@@ -427,6 +496,8 @@ class StartPage(tk.Frame):
             ######## END Global Menu Bar ########
         makeMenu()
 
+
+       
 ######## Home page for Settings ########
  
 class SettingPage(tk.Frame):
@@ -597,7 +668,6 @@ class princessPage(tk.Frame):
 
 
 
-        
 
         
 if __name__ == "__main__":

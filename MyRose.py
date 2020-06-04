@@ -61,6 +61,14 @@ global fontSize
 fontSize = 15 
 global fontWeight
 fontWeight = 'bold'
+global btnWidth
+btnWidth = 100
+global btnHeight
+btnHeight = 2
+global btnPady
+btnPady = 20
+global btnPadx
+btnPadx = 5
 ######## END Button Styling #########
 global COLORS
 
@@ -151,7 +159,7 @@ def randomColor():
     'light blue', 'powder blue', 'pale turquoise', 'dark turquoise', 'medium turquoise', 'turquoise',
     'cyan', 'light cyan', 'cadet blue', 'medium aquamarine', 'aquamarine', 
     'dark sea green', 'sea green', 'medium sea green', 'light sea green', 'pale green', 'spring green',
-    'medium spring green' 'azure2', 'azure3', 'azure4', 'SlateBlue1', 'SlateBlue2', 'SlateBlue3',
+    'medium spring green', 'azure2', 'azure3', 'azure4', 'SlateBlue1', 'SlateBlue2', 'SlateBlue3',
     'SlateBlue4', 'RoyalBlue1', 'RoyalBlue2', 'RoyalBlue3', 'RoyalBlue4', 'blue2', 'blue4',
     'DodgerBlue2', 'DodgerBlue3', 'DodgerBlue4', 'SteelBlue1', 'SteelBlue2',
     'SteelBlue3', 'SteelBlue4', 'DeepSkyBlue2', 'DeepSkyBlue3', 'DeepSkyBlue4',
@@ -199,8 +207,10 @@ class myRose(tk.Tk):
         img = tk.PhotoImage(file= filename)
 
         self.tk.call('wm', 'iconphoto', self._w, img)
-       # self.geometry("1200x1200")
+        #self.geometry("1200x1200")
+       
         self._frame = None
+       
         self.attributes('-fullscreen', True)
         self.fullScreenState = False
         self.bind("<F11>", self.toggleFullScreen)
@@ -226,7 +236,7 @@ class myRose(tk.Tk):
         if self._frame is not None:
             self._frame.destroy()
         self._frame = new_frame
-        self._frame.grid()
+        self._frame.pack()
     def toggleFullScreen(self, event):
         self.fullScreenState = not self.fullScreenState
         self.attributes("-fullscreen", self.fullScreenState)
@@ -246,7 +256,7 @@ class setup(tk.Frame):
         subHeaderFont = font.Font(family='Helvetica', size=12)
         buttonFont = font.Font(family='Helvetica', size = 10, weight = 'bold')
         """   this is the "main frame from tkinter """
-        tk.Frame.__init__(self,master)
+        tk.Frame.__init__(self,master = None)
 
         """this is the label on the front page"""
         header = tk.Label(self, text="Welcome to the setup page for My Rose!! :)", font = headerFont)
@@ -371,21 +381,36 @@ class StartPage(tk.Frame):
 
         tk.Frame.__init__(self,master)
         #self.master.geometry("700x700")
+        
 
         """this is the Header on the front page"""
-        self.config(bg='purple')
+        self.config(bg='white', height = 20000)
+        self.pack(expand=1, fill="both")
         
+        """
         
-       
+        secondFrame = tk.Frame(self)
+		
+        secondFrame.config(bg = 'blue', width = 1000, height = 2000)
+               
+        secondFrame.pack(side = "bottom")
+        secondFrame.pack_propagate(True)
+        
+		#self.pack(in_secondFrame)
+		"""
+               
         here = os.path.dirname(os.path.abspath(__file__))
         filename = os.path.join(here, 'Resources', 'Images', 'WHAT.png')
         
+        
         image = Image.open(filename)
+        image = image.resize((2200, 250), Image.ANTIALIAS) 
         photo = ImageTk.PhotoImage(image)
         photoLabel = tk.Label(self, image=photo)
         photoLabel.image = photo
         header = photoLabel
-
+        header.config(bd = btnBorder)
+		
 
      
 
@@ -403,8 +428,8 @@ class StartPage(tk.Frame):
             top.after(2000, top.destroy)
         
         welcome()
-
-        """ k = 1 
+        """
+        k = 1 
         if k == 1 and welcomeCounter == 1:
             welcome()
             k =+ 2
@@ -418,20 +443,20 @@ class StartPage(tk.Frame):
         btnFont = font.Font(family = fontFamily, size = fontSize, weight = fontWeight)
         randomColor()
         quitBtn = tk.Button(self, text = "Quit", fg = color, bg = secondColor,
-                    command = lambda: self.quit())
+                    pady = btnPady, padx = btnPadx, command = lambda: self.quit())
         storyBtn = tk.Button(self, text="Story Time!", fg = color, bg = secondColor,
-                    command=lambda: master.switch_frame(StoryPage))
-        storyBtn.config(relief = btnRelief, bd = btnBorder, font = btnFont)
+                    pady = btnPady, padx = btnPadx, command=lambda: master.switch_frame(StoryPage))
+        storyBtn.config(width = btnWidth, height = btnHeight, relief = btnRelief, bd = btnBorder, font = btnFont)
         randomColor()
 
         gameBtn = tk.Button(self, text="Games! :)", fg = color, bg = secondColor,
-                    command=lambda: master.switch_frame(GamePage))
-        gameBtn.config(relief = btnRelief, bd = btnBorder, font = btnFont)
+                    pady = btnPady, padx = btnPadx, command=lambda: master.switch_frame(GamePage))
+        gameBtn.config(width = btnWidth, height = btnHeight, relief = btnRelief, bd = btnBorder, font = btnFont)
         randomColor()
         settingsBtn = tk.Button(self, text = "Mommy and Daddy Settings", fg = color, bg = randomBlue,
-                    command=lambda: master.switch_frame(SettingPage))
-        settingsBtn.config(bg = btnBG, relief = btnRelief, bd = btnBorder, font = btnFont)
-        quitBtn.config(bg = btnBG, relief = btnRelief, bd = btnBorder, font = btnFont)
+                     pady = btnPady, padx = btnPadx, command=lambda: master.switch_frame(SettingPage))
+        settingsBtn.config(width = btnWidth, height = btnHeight, bg = btnBG, relief = btnRelief, bd = btnBorder, font = btnFont)
+        quitBtn.config(width = btnWidth, height = btnHeight, bg = btnBG, relief = btnRelief, bd = btnBorder, font = btnFont)
         
         ###### ADDING PICTURES TO BUTTONS ######## )
         """
@@ -453,11 +478,11 @@ class StartPage(tk.Frame):
         gameBtn.grid(row = 2, column = 3, padx = 20)
         settingsBtn.grid(row = 2, column = 4, padx = 10)
 """
-        header.pack()
-        storyBtn.pack()
-        gameBtn.pack()
-        settingsBtn.pack()
-        quitBtn.pack(side = "bottom")
+        header.pack(pady = btnPady, padx = btnPadx)
+        storyBtn.pack(pady = btnPady, padx = btnPadx)
+        gameBtn.pack(pady = btnPady, padx = btnPadx)
+        settingsBtn.pack(pady = btnPady, padx = btnPadx)
+        quitBtn.pack(pady = btnPady, padx = btnPadx)
         #circleBtn.grid(row= 3, column = 5, padx = 10)
         #hotoLabel.grid(row = 4, column = 6)
 
@@ -472,27 +497,32 @@ class StartPage(tk.Frame):
                 AboutPage.do()
             menubar = tk.Menu(self)
             # create a pulldown menu, and add it to the menu bar
-            filemenu = tk.Menu(menubar, tearoff=0)
-            filemenu.add_command(label="Open", command=hello)
-            filemenu.add_command(label="Save", command=hello)
+            filemenu = tk.Menu(menubar, tearoff=1)
+            filemenu.add_command(label="Open", font=("Verdana", 14), command=hello)
             filemenu.add_separator()
-            filemenu.add_command(label="Exit", command=self.quit)
-            menubar.add_cascade(label="File", menu=filemenu)
-
+            filemenu.add_command(label="Save", font=("Verdana", 14), command=hello)
+            filemenu.add_separator()
+            filemenu.add_command(label="Exit", font=("Verdana", 14), command=self.quit)
+            menubar.add_cascade(label="File", font=("Verdana", 16), menu=filemenu)
+			
             # create more pulldown menus
+            separatorMenu= tk.Menu(menubar, tearoff = 0)
             editmenu = tk.Menu(menubar, tearoff=0)
-            editmenu.add_command(label="Cut", command=hello)
-            editmenu.add_command(label="Copy", command=hello)
-            editmenu.add_command(label="Paste", command=hello)
-            menubar.add_cascade(label="Edit", menu=editmenu)
+            editmenu.add_command(label="Cut", font=("Verdana", 14), command=hello)
+            editmenu.add_separator()
+            editmenu.add_command(label="Copy", font=("Verdana", 14), command=hello)
+            editmenu.add_separator()
+            editmenu.add_command(label="Paste", font=("Verdana", 14), command=hello)
+            menubar.add_cascade(label="Edit", font=("Verdana", 16), menu=editmenu)
+            menubar.add_cascade(label="", menu=separatorMenu)
 
             helpmenu = tk.Menu(menubar, tearoff=0)
-            helpmenu.add_command(label="About", command=about)
-            menubar.add_cascade(label="Help", menu=helpmenu)
+            helpmenu.add_command(label="About", font=("Verdana", 14), command=about)
+            menubar.add_cascade(label="Help", font=("Verdana", 16), menu=helpmenu)
 
             # display the menu
             master.config(menu=menubar)
-
+            
             ######## END Global Menu Bar ########
         makeMenu()
 
@@ -523,7 +553,7 @@ class GamePage(tk.Frame):
         headerFont = font.Font(family='Helvetica', size=20)
 
         tk.Frame.__init__(self,master)
-        tk.Label(self, text=emoji.emojize('Let\'s play some games!! \U0001F3AE 	'), font=headerFont).pack()
+       # tk.Label(self, text=emoji.emojize('Let\'s play some games!! \U0001F3AE 	'), font=headerFont).pack()
         colorBtn = tk.Button(self, text="Learn Basic Colors", command=lambda: master.switch_frame(colorPage))
         fidgitBtn = tk.Button(self, text = "Fidgit Spinner!!", command =lambda: fidgitSpinner.fidgit())
         paintBtn = tk.Button(self, text = "Relax, with some auto painting beauty :)", command = lambda: relaxingAutoPaint.paint() )

@@ -63,7 +63,7 @@ btnBG = 'blue'
 global fontFamily
 fontFamily = 'Helvetica'
 global fontSize
-fontSize = 15 
+fontSize = 20 
 global fontWeight
 fontWeight = 'bold'
 global btnWidth
@@ -71,7 +71,7 @@ btnWidth = 100
 global btnHeight
 btnHeight = 2
 global btnPady
-btnPady = 20
+btnPady = 5
 global btnPadx
 btnPadx = 5
 ######## END Button Styling #########
@@ -484,7 +484,7 @@ class StartPage(tk.Frame):
         gameBtn.grid(row = 2, column = 3, padx = 20)
         settingsBtn.grid(row = 2, column = 4, padx = 10)
 """
-        header.pack(pady = btnPady, padx = btnPadx)
+        header.pack( padx = btnPadx)
         storyBtn.pack(pady = btnPady, padx = btnPadx)
         gameBtn.pack(pady = btnPady, padx = btnPadx)
         settingsBtn.pack(pady = btnPady, padx = btnPadx)

@@ -5,3 +5,49 @@ pip3 install youtube_dl
 pip3 install pygame
 pip3 install playsound
 pip3 install pillow
+
+
+Mac OS X Pygame if using Python 3.8 use:
+
+python3 -m pip install pygame --pre --user
+
+Mac OS X Pygame Dependencies:
+
+brew install mercurial
+brew install sdl sdl_image sdl_mixer sdl_ttf portmidi
+brew tap homebrew/headonly
+brew install smpeg
+
+Procedure (Mac OS X)
+This guide is based on an article found (here)
+
+Before installing Pygame, there are many dependencies that will need to be installed. Begin by installing the XCode developer tools, which can be done through the app store.
+Next you will need to install the latest version of XQuartz. You can start the installation by visiting the site (here).
+Open a Terminal window. This can be done by pressing command+Space (⌘+Space) and typing Terminal in the search bar and pressing Enter.
+
+terminal window location
+
+You now need to install Homebrew. You can do this by typing the following command in the Terminal and pressing Enter:
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+After the installation is finished, you will need to type the following commands in the Terminal, pressing Enter after each one:
+echo export PATH='usr/local/bin:$PATH' >> ~/.bash_profile
+brew update
+brew doctor
+You can now install Python 3 using Homebrew. To do this, type the following command in the Terminal and press Enter:
+brew install python3
+Now you need to install several dependencies for Pygame. Type the following commands in the Terminal, pressing Enter after each one:
+brew install mercurial
+brew install sdl sdl_image sdl_mixer sdl_ttf portmidi
+brew tap homebrew/headonly
+brew install smpeg
+You are ready to install Pygame. Type the following command in the Terminal and press Enter. Note that you will probably have to enter your password in the Terminal in order for the command to run:
+sudo pip3 install hg+http://bitbucket.org/pygame/pygame
+To verify the installation, you will have to launch the correct version of IDLE. You can find this by opening Finder, clicking on Go in the top left of the screen, then clicking on the Go to Folder… option.
+In the search bar, enter /usr/local/Cellar/python and click Go.
+Navigate to the folder where Python 3 is located. It will probably be named in this format: 3.x.x.
+Launch the IDLE 3 app within the folder. When launched, it should be using Python 3.x.x.
+In the IDLE interpreter, type the following command and press Enter:
+   import pygame
+If the command completed without throwing any errors, you have successfully installed Pygame and found the correct version of IDLE to use for Pygame programming.
+
+To make finding this version of IDLE easier, you can create a Desktop shortcut for IDLE 3. If you want to do this, press and hold the control key and click on IDLE 3. It will open a Menu where you can select Make Alias and create another IDLE 3 icon. You can name this icon whatever you like, but make sure to drag it to your Desktop when you are done.

@@ -1,5 +1,9 @@
 babyName.pckl
 babyGender.pckl
+<<<<<<< HEAD
+=======
+.vscode/settings.json
+>>>>>>> eb6e6c0a2d2409bc0bcbe5b7a6597fc1bd1a57a7
 lib/__pycache__/AboutPage.cpython-38.pyc
 lib/__pycache__/fidgitSpinner.cpython-38.pyc
 lib/__pycache__/relaxingAutoPaint.cpython-38.pyc

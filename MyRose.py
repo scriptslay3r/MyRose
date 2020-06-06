@@ -408,6 +408,7 @@ class StartPage(tk.Frame):
         filename = os.path.join(here, 'Resources', 'Images', 'header.png')
         
         
+        
         image = Image.open(filename)
         image = image.resize((1200, 250), Image.ANTIALIAS) 
         photo = ImageTk.PhotoImage(image)

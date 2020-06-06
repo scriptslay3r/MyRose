@@ -184,6 +184,11 @@ def randomColor():
     color = choice(COLORS)
     global secondColor
     secondColor = choice(COLORS)
+    global thirdColor
+    thirdColor = choice(COLORS)
+    global fourthColor 
+    fourthColor = choice(COLORS)
+
     global randomBlue
     randomBlue = choice(BLUES)
 
@@ -444,12 +449,10 @@ class StartPage(tk.Frame):
             welcome()
             welcomeCounter += 2
 """
-        #tk.messagebox.showinfo(title="Welcome!!", message="Mommy and Daddy love you " + baby)
             
         btnFont = font.Font(family = fontFamily, size = fontSize, weight = fontWeight)
         randomColor()
-        quitBtn = tk.Button(self, text = "Quit", fg = color, bg = secondColor,
-                    pady = btnPady, padx = btnPadx, command = lambda: self.quit())
+        
         storyBtn = tk.Button(self, text="Story Time!", fg = color, bg = secondColor,
                     pady = btnPady, padx = btnPadx, command=lambda: master.switch_frame(StoryPage))
         storyBtn.config(width = btnWidth, height = btnHeight, relief = btnRelief, bd = btnBorder, font = btnFont)
@@ -459,10 +462,13 @@ class StartPage(tk.Frame):
                     pady = btnPady, padx = btnPadx, command=lambda: master.switch_frame(GamePage))
         gameBtn.config(width = btnWidth, height = btnHeight, relief = btnRelief, bd = btnBorder, font = btnFont)
         randomColor()
-        settingsBtn = tk.Button(self, text = "Mommy and Daddy Settings", fg = color, bg = randomBlue,
-                     pady = btnPady, padx = btnPadx, command=lambda: master.switch_frame(SettingPage))
-        settingsBtn.config(width = btnWidth, height = btnHeight, bg = btnBG, relief = btnRelief, bd = btnBorder, font = btnFont)
-        quitBtn.config(width = btnWidth, height = btnHeight, bg = btnBG, relief = btnRelief, bd = btnBorder, font = btnFont)
+        settingsBtn = tk.Button(self, text = "Mommy and Daddy Settings", fg = color, bg = secondColor,
+                     pady = btnPady, padx = btnPadx, command=lambda: master.switch_frame(SettingPage))             
+        settingsBtn.config(width = btnWidth, height = btnHeight, relief = btnRelief, bd = btnBorder, font = btnFont)
+        randomColor()
+        quitBtn = tk.Button(self, text = "Quit", fg = color, bg = secondColor,
+                    pady = btnPady, padx = btnPadx, command = lambda: self.quit())
+        quitBtn.config(width = btnWidth, height = btnHeight, relief = btnRelief, bd = btnBorder, font = btnFont)
         
         ###### ADDING PICTURES TO BUTTONS ######## )
         """

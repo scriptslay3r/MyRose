@@ -394,7 +394,7 @@ class StartPage(tk.Frame):
         
 
         """this is the Header on the front page"""
-        self.config(bg='white', height = 20000)
+        self.config(bg='gray', height = 20000)
         self.pack(expand=1, fill="both")
         
         """

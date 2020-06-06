@@ -7,6 +7,10 @@ pip3 install playsound
 pip3 install pillow
 
 
+Mac OS X Pygame if using Python 3.8 use:
+
+python3 -m pip install pygame --pre --user
+
 Mac OS X Pygame Dependencies:
 
 brew install mercurial

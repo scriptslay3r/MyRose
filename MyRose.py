@@ -415,7 +415,7 @@ class StartPage(tk.Frame):
         
         
         image = Image.open(filename)
-        image = image.resize((1200, 250), Image.ANTIALIAS) 
+        #image = image.resize((1200, 250), Image.ANTIALIAS) 
         photo = ImageTk.PhotoImage(image)
         photoLabel = tk.Label(self, image=photo)
         photoLabel.image = photo

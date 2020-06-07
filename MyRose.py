@@ -394,7 +394,7 @@ class StartPage(tk.Frame):
         
 
         """this is the Header on the front page"""
-        self.config(bg='gray', height = 20000)
+        self.config(bg='white', height = 20000)
         self.pack(expand=1, fill="both")
         
         """
@@ -415,7 +415,7 @@ class StartPage(tk.Frame):
         
         
         image = Image.open(filename)
-        #image = image.resize((1200, 250), Image.ANTIALIAS) 
+        image = image.resize((1230, 60), Image.ANTIALIAS) 
         photo = ImageTk.PhotoImage(image)
         photoLabel = tk.Label(self, image=photo)
         photoLabel.image = photo

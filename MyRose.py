@@ -78,6 +78,44 @@ btnPadx = 5
 global COLORS
 
 
+######## Global Menu Bar ########
+def makeMenu(self):
+
+    def hello():
+        print("Hello")      
+
+    def about():
+        AboutPage.do()
+    def leave():
+        self.quit()
+
+    menubar = tk.Menu(self)
+    # create a pulldown menu, and add it to the menu bar
+    filemenu = tk.Menu(menubar, tearoff=0)
+    filemenu.add_command(label="Open", command=hello)
+    filemenu.add_command(label="Save", command=hello)
+    filemenu.add_separator()
+    filemenu.add_command(label="Exit", command=leave)
+    menubar.add_cascade(label="File", menu=filemenu)
+
+    # create more pulldown menus
+    editmenu = tk.Menu(menubar, tearoff=0)
+    editmenu.add_command(label="Cut", command=hello)
+    editmenu.add_command(label="Copy", command=hello)
+    editmenu.add_command(label="Paste", command=hello)
+    menubar.add_cascade(label="Edit", menu=editmenu)
+
+    helpmenu = tk.Menu(menubar, tearoff=0)
+    helpmenu.add_command(label="About", command=about)
+    menubar.add_cascade(label="Help", menu=helpmenu)
+
+    # display the menu
+    self.config(menu=menubar)
+
+    ######## END Global Menu Bar ########
+
+
+
 #~~~~~~ I want to add a section to allow the user to disable certian colors ~~~~~ ###
 def randomColor():
     COLORS = ['snow', 'ghost white', 'white smoke', 'gainsboro', 'floral white', 'old lace',
@@ -267,7 +305,7 @@ class setup(tk.Frame):
         buttonFont = font.Font(family='Helvetica', size = 10, weight = 'bold')
         """   this is the "main frame from tkinter """
         tk.Frame.__init__(self,master = None)
-
+        makeMenu(master)
         """this is the label on the front page"""
         header = tk.Label(self, text="Welcome to the setup page for My Rose!! :)", font = headerFont)
         subHeader = tk.Label(self, text="If you wouldn't mind filling out some information below, \nit will allow for a more personalized experience :)", font = subHeaderFont)
@@ -498,45 +536,8 @@ class StartPage(tk.Frame):
         #circleBtn.grid(row= 3, column = 5, padx = 10)
         #hotoLabel.grid(row = 4, column = 6)
 
-        ######## Global Menu Bar ########
-        def makeMenu():
-
-
-            def hello():
-                print("Hello")      
-
-            def about():
-                AboutPage.do()
-            menubar = tk.Menu(self)
-            # create a pulldown menu, and add it to the menu bar
-            filemenu = tk.Menu(menubar, tearoff=1)
-            filemenu.add_command(label="Open", font=("Verdana", 14), command=hello)
-            filemenu.add_separator()
-            filemenu.add_command(label="Save", font=("Verdana", 14), command=hello)
-            filemenu.add_separator()
-            filemenu.add_command(label="Exit", font=("Verdana", 14), command=self.quit)
-            menubar.add_cascade(label="File", font=("Verdana", 16), menu=filemenu)
-			
-            # create more pulldown menus
-            separatorMenu= tk.Menu(menubar, tearoff = 0)
-            editmenu = tk.Menu(menubar, tearoff=0)
-            editmenu.add_command(label="Cut", font=("Verdana", 14), command=hello)
-            editmenu.add_separator()
-            editmenu.add_command(label="Copy", font=("Verdana", 14), command=hello)
-            editmenu.add_separator()
-            editmenu.add_command(label="Paste", font=("Verdana", 14), command=hello)
-            menubar.add_cascade(label="Edit", font=("Verdana", 16), menu=editmenu)
-            menubar.add_cascade(label="", menu=separatorMenu)
-
-            helpmenu = tk.Menu(menubar, tearoff=0)
-            helpmenu.add_command(label="About", font=("Verdana", 14), command=about)
-            menubar.add_cascade(label="Help", font=("Verdana", 16), menu=helpmenu)
-
-            # display the menu
-            master.config(menu=menubar)
-            
-            ######## END Global Menu Bar ########
-        makeMenu()
+        
+        makeMenu(master)
 
 
        
